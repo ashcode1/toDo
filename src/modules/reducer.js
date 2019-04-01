@@ -1,7 +1,12 @@
 import ACTIONS from "./action";
 import _ from "lodash";
 const defaultState = {
-  items: []
+  items: [],
+  nextId: 1,
+  currentUser: { 
+    userName: 'SomeGuy',
+    password: 'password' 
+  }
 };
 const todoReducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -9,9 +14,10 @@ const todoReducer = (state = defaultState, action) => {
       console.log(action);
       let item = action.payload.item;
       let category = action.payload.category;
-      let newItem = { id: state.items.length + 1, description: item, category };
+      let newItem = { id: state.nextId, description: item, category };
       let newState = _.cloneDeep(state);
       newState.items.push(newItem);
+      newState.nextId = state.nextId + 1
       return newState;
     }
     case ACTIONS.Types.DELETE_ITEM: {
